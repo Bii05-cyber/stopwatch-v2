@@ -1,141 +1,114 @@
-html
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<link href="https://fonts.cdnfonts.com/css/digital-7-mono" rel="stylesheet">
-
-<style>
-body{
-  margin:0;
-  background:transparent;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
-}
-
-/* ===== WIDGET CONTAINER ===== */
-.widget{
-  position:relative;
-  width:700px;
-  aspect-ratio:1/1;
+<!DOCTYPE html> 
+<html> 
+<head> 
+<meta charset="UTF-8"> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  
+<link href="https://fonts.cdnfonts.com/css/digital-7-mono" rel="stylesheet"> 
+  
+<style> 
+body{ 
+  margin:0; 
+  background:transparent; 
+  display:flex; 
+  justify-content:center; 
+  align-items:center; 
+  height:100vh; 
+} 
+  
+.widget{ 
+  position:relative; 
+  width:700px; 
+  aspect-ratio:1/1; 
   background:url("clock2.jpg") no-repeat center/cover;
-  perspective:900px;  /* Added perspective */
-}
-
-/* ===== VISOR ===== */
-.display{
-  position:absolute;
-  top:110px;
-  left:56px;
-  width:280px;
-  text-align:center;
-
-  /* Original fine-tuned skew/rotation */
-  transform: skewX(-25deg) rotate(-30deg);
-
-  /* New 3D enhancement */
-  transform-origin: left center; /* pivot from left to exaggerate right side */
-  transform: skewX(-25deg) rotate(-30deg) rotateY(-12deg);
-
-  font-family:'Digital-7 Mono', monospace;
-  color:#ff2a2a;
-  text-shadow:
-    0 0 5px #ff0000,
-    0 0 10px #ff0000,
-    0 0 20px #ff0000;
 }
   
-/* ===== NÚMEROS ===== */
-#stopwatch{
-  font-size: 52px;
-  letter-spacing: 5px;
-}
-
-/* ===== BOTÕES ===== */
-.controls{
-  margin-top: 8px;
-  display: flex;
-  justify-content: center;  /* center as a group */
-  gap: 14px;                /* control spacing here */
+.display{ 
+  position:absolute; 
+  top:110px; 
+  left:56px; 
+  width:280px; 
+  text-align:center; 
+  transform: skewX(-6deg); 
+  font-family:'Digital-7 Mono', monospace; 
+  color:#ff2a2a; 
+  text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #ff0000; 
+  transform: skewX(-25deg) rotate(-30deg); 
+} 
+  
+#stopwatch{ 
+  font-size: 52px; 
+  letter-spacing: 5px; 
+} 
+  
+.controls{ 
+  margin-top: 8px; 
+  display: flex; 
+  justify-content: center; 
+  gap: 14px;
+} 
+  
+.controls button{ 
+  font-family:'Digital-7 Mono', monospace; 
+  font-size:16px; 
+  background:transparent; 
+  border:none; 
+  color:#ff2a2a; 
+  cursor:pointer; 
+  letter-spacing:2px; 
+  text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000; 
+} 
+  
+.controls button:hover{ 
+  opacity:0.7; 
+} 
+</style> 
+</head> 
+  
+<body> 
+  
+<div class="widget"> 
+  <div class="display"> 
+    <div id="stopwatch">00:00</div> 
+    <div class="controls"> 
+      <button onclick="startStop()">START</button> 
+      <button onclick="reset()">RESET</button> 
+    </div> 
+  </div> 
+</div> 
+  
+<script> 
+let timer; 
+let isRunning = false; 
+let seconds = 0; 
+  
+function updateDisplay() { 
+  let mins = String(Math.floor(seconds / 60)).padStart(2, "0"); 
+  let secs = String(seconds % 60).padStart(2, "0"); 
+  document.getElementById("stopwatch").textContent = ${mins}:${secs}; 
+} 
+  
+function startStop() { 
+  if (isRunning) { 
+    clearInterval(timer); 
+  } else { 
+    timer = setInterval(() => { 
+      seconds++; 
+      updateDisplay(); 
+    }, 1000); 
+  } 
+  isRunning = !isRunning; 
 }
   
-.controls button{
-  font-family:'Digital-7 Mono', monospace;
-  font-size:16px;
-  background:transparent;
-  border:none;
-  color:#ff2a2a;
-  cursor:pointer;
-  letter-spacing:2px;
-  text-shadow:
-    0 0 5px #ff0000,
-    0 0 10px #ff0000;
-}
+function reset() { 
+  clearInterval(timer); 
+  seconds = 0; 
+  updateDisplay(); 
+  isRunning = false; 
+} 
+  
+updateDisplay(); 
+</script> 
 
-.controls button:hover{
-  opacity:0.7;
-}
-</style>
-</head>
-
-<body>
-
-<div class="widget">
-  <div class="display">
-      <div id="stopwatch">00:00</div>
-      <div class="controls">
-        <button onclick="startStop()">START</button>
-        <button onclick="reset()">RESET</button>
-      </div>
-  </div>
-</div>
-
-<script>
-let timer;
-let isRunning = false;
-let seconds = 0;
-
-function updateDisplay() {
-  let mins = String(Math.floor(seconds / 60)).padStart(2, "0");
-  let secs = String(seconds % 60).padStart(2, "0");
-  document.getElementById("stopwatch").textContent = `${mins}:${secs}`;
-}
-
-function startStop() {
-  if (isRunning) {
-    clearInterval(timer);
-  } else {
-    timer = setInterval(() => {
-      seconds++;
-      updateDisplay();
-    }, 1000);
-  }
-  isRunning = !isRunning;
-}
-
-function reset() {
-  clearInterval(timer);
-  seconds = 0;
-  updateDisplay();
-  isRunning = false;
-}
-
-updateDisplay();
-</script>
-
-</body>
+</body> 
 </html>
---- ### ✅ What Changed 1. **Perspective added** to .widget:
-css
-perspective:900px;
-This enables true 3D rotation distortion for the visor. 2. **rotateY added** to .display:
-css
-transform: skewX(-25deg) rotate(-30deg) rotateY(-12deg);
-* Subtle right-side compression, looks more realistic. * Keeps your current fine-tuned skew/rotation. 3. **Transform origin changed**:
-css
-transform-origin: left center;
-* Pivot from the left so right side squashes naturally without shifting the whole display.

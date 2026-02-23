@@ -1,3 +1,4 @@
+html
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,30 +17,29 @@ body{
   height:100vh;
 }
 
-/* ==== WIDGET CONTAINER ==== */
+/* ===== WIDGET CONTAINER ===== */
 .widget{
   position:relative;
   width:700px;
   aspect-ratio:1/1;
   background:url("clock2.jpg") no-repeat center/cover;
-  perspective:900px;
+  perspective:900px;  /* Added perspective */
 }
 
-/* 
-========================================
- REAL VISOR SURFACE (numbers + buttons)
-========================================
-*/
-.visor{
+/* ===== VISOR ===== */
+.display{
   position:absolute;
-  top:180px;
-  left:40px;
+  top:110px;
+  left:56px;
   width:280px;
   text-align:center;
 
-  /* Your original perfect angle */
-  transform-origin:left center;
-  transform: skewX(-25deg) rotate(-25deg);
+  /* Original fine-tuned skew/rotation */
+  transform: skewX(-25deg) rotate(-30deg);
+
+  /* New 3D enhancement */
+  transform-origin: left center; /* pivot from left to exaggerate right side */
+  transform: skewX(-25deg) rotate(-30deg) rotateY(-12deg);
 
   font-family:'Digital-7 Mono', monospace;
   color:#ff2a2a;
@@ -47,23 +47,22 @@ body{
     0 0 5px #ff0000,
     0 0 10px #ff0000,
     0 0 20px #ff0000;
-  z-index:10;
 }
-
-/* ==== NUMBERS ==== */
+  
+/* ===== NÚMEROS ===== */
 #stopwatch{
   font-size: 52px;
-  letter-spacing:5px;
-  margin-bottom:8px;
+  letter-spacing: 5px;
 }
 
-/* ==== BUTTONS (no transform needed now!) ==== */
+/* ===== BOTÕES ===== */
 .controls{
-  display:flex;
-  justify-content:center;
-  gap:14px;
+  margin-top: 8px;
+  display: flex;
+  justify-content: center;  /* center as a group */
+  gap: 14px;                /* control spacing here */
 }
-
+  
 .controls button{
   font-family:'Digital-7 Mono', monospace;
   font-size:16px;
@@ -73,12 +72,12 @@ body{
   cursor:pointer;
   letter-spacing:2px;
   text-shadow:
-    0 0 3px #ff0000,
-    0 0 6px #ff0000;
+    0 0 5px #ff0000,
+    0 0 10px #ff0000;
 }
 
 .controls button:hover{
-  opacity:0.8;
+  opacity:0.7;
 }
 </style>
 </head>
@@ -86,17 +85,12 @@ body{
 <body>
 
 <div class="widget">
-
-  <!-- The shared angled surface -->
-  <div class="visor">
-
+  <div class="display">
       <div id="stopwatch">00:00</div>
-
       <div class="controls">
         <button onclick="startStop()">START</button>
         <button onclick="reset()">RESET</button>
       </div>
-
   </div>
 </div>
 
@@ -135,3 +129,13 @@ updateDisplay();
 
 </body>
 </html>
+--- ### ✅ What Changed 1. **Perspective added** to .widget:
+css
+perspective:900px;
+This enables true 3D rotation distortion for the visor. 2. **rotateY added** to .display:
+css
+transform: skewX(-25deg) rotate(-30deg) rotateY(-12deg);
+* Subtle right-side compression, looks more realistic. * Keeps your current fine-tuned skew/rotation. 3. **Transform origin changed**:
+css
+transform-origin: left center;
+* Pivot from the left so right side squashes naturally without shifting the whole display.

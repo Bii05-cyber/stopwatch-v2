@@ -22,18 +22,22 @@ body{
   width:700px;
   aspect-ratio:1/1;
   background:url("clock2.jpg") no-repeat center/cover;
-  perspective:900px; /* keep this, does not move anything */
+  perspective:900px;
 }
 
-/* ==== VISOR (your original perfect position) ==== */
-.display{
+/* 
+========================================
+ REAL VISOR SURFACE (numbers + buttons)
+========================================
+*/
+.visor{
   position:absolute;
   top:110px;
   left:56px;
   width:280px;
   text-align:center;
 
-  /* Your original skew + rotation */
+  /* Your original perfect angle */
   transform-origin:left center;
   transform: skewX(-25deg) rotate(-30deg);
 
@@ -43,28 +47,23 @@ body{
     0 0 5px #ff0000,
     0 0 10px #ff0000,
     0 0 20px #ff0000;
-  z-index:50;
+  z-index:10;
 }
 
 /* ==== NUMBERS ==== */
 #stopwatch{
   font-size: 52px;
-  letter-spacing: 5px;
-  margin-bottom:6px;
-  position:relative;
-  z-index:100; /* ensure numbers stay in front */
+  letter-spacing:5px;
+  margin-bottom:8px;
 }
 
-/* ==== CONTROLS (kept in original correct position) ==== */
+/* ==== BUTTONS (no transform needed now!) ==== */
 .controls{
   display:flex;
   justify-content:center;
   gap:14px;
-  position:relative;
-  z-index:90; /* placed above background but below numbers */
 }
 
-/* ==== BUTTONS ==== */
 .controls button{
   font-family:'Digital-7 Mono', monospace;
   font-size:16px;
@@ -73,14 +72,9 @@ body{
   color:#ff2a2a;
   cursor:pointer;
   letter-spacing:2px;
-
-  /* Glow */
   text-shadow:
-    0 0 4px #ff0000,
-    0 0 8px #ff0000;
-
-  /* Fake 3D effect so they blend with the visor angle */
-  transform: skewX(8deg);
+    0 0 3px #ff0000,
+    0 0 6px #ff0000;
 }
 
 .controls button:hover{
@@ -92,7 +86,10 @@ body{
 <body>
 
 <div class="widget">
-  <div class="display">
+
+  <!-- The shared angled surface -->
+  <div class="visor">
+
       <div id="stopwatch">00:00</div>
 
       <div class="controls">

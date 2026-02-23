@@ -1,118 +1,114 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<link href="https://fonts.cdnfonts.com/css/digital-7-mono" rel="stylesheet">
-
-<style>
-
-:root {
-  --size: 350px; /* 🔥 CHANGE THIS VALUE ONLY */
-}
-
-body{
-  margin:0;
-  background:transparent;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-
-.widget{
-  position:relative;
-  width:var(--size);
-  aspect-ratio:1/1;
+<!DOCTYPE html> 
+<html> 
+<head> 
+<meta charset="UTF-8"> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  
+<link href="https://fonts.cdnfonts.com/css/digital-7-mono" rel="stylesheet"> 
+  
+<style> 
+body{ 
+  margin:0; 
+  background:transparent; 
+  display:flex; 
+  justify-content:center; 
+  align-items:center; 
+  height:100vh; 
+} 
+  
+.widget{ 
+  position:relative; 
+  width:350px; 
+  aspect-ratio:1/1; 
   background:url("clock2.jpg") no-repeat center/cover;
 }
-
-/* Positioned proportionally to original 700px layout */
-.display{
-  position:absolute;
-  top:15.7%;
-  left:8%;
-  width:40%;
-  text-align:center;
-  font-family:'Digital-7 Mono', monospace;
-  color:#ff2a2a;
-  text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #ff0000;
-  transform: skewX(-25deg) rotate(-30deg);
+  
+.display{ 
+  position:absolute; 
+  top:55px; 
+  left:28px; 
+  width:140px; 
+  text-align:center; 
+  transform: skewX(-6deg); 
+  font-family:'Digital-7 Mono', monospace; 
+  color:#ff2a2a; 
+  text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #ff0000; 
+  transform: skewX(-25deg) rotate(-30deg); 
+} 
+  
+#stopwatch{ 
+  font-size: 26px; 
+  letter-spacing: 5px; 
+} 
+  
+.controls{ 
+  margin-top: 8px; 
+  display: flex; 
+  justify-content: center; 
+  gap: 14px;
+} 
+  
+.controls button{ 
+  font-family:'Digital-7 Mono', monospace; 
+  font-size:16px; 
+  background:transparent; 
+  border:none; 
+  color:#ff2a2a; 
+  cursor:pointer; 
+  letter-spacing:2px; 
+  text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000; 
+} 
+  
+.controls button:hover{ 
+  opacity:0.7; 
+} 
+</style> 
+</head> 
+  
+<body> 
+  
+<div class="widget"> 
+  <div class="display"> 
+    <div id="stopwatch">00:00</div> 
+    <div class="controls"> 
+      <button onclick="startStop()">START</button> 
+      <button onclick="reset()">RESET</button> 
+    </div> 
+  </div> 
+</div> 
+  
+<script> 
+let timer; 
+let isRunning = false; 
+let seconds = 0; 
+  
+function updateDisplay() { 
+  let mins = String(Math.floor(seconds / 60)).padStart(2, "0"); 
+  let secs = String(seconds % 60).padStart(2, "0"); 
+  document.getElementById("stopwatch").textContent = ${mins}:${secs}; 
+} 
+  
+function startStop() { 
+  if (isRunning) { 
+    clearInterval(timer); 
+  } else { 
+    timer = setInterval(() => { 
+      seconds++; 
+      updateDisplay(); 
+    }, 1000); 
+  } 
+  isRunning = !isRunning; 
 }
+  
+function reset() { 
+  clearInterval(timer); 
+  seconds = 0; 
+  updateDisplay(); 
+  isRunning = false; 
+} 
+  
+updateDisplay(); 
+</script> 
 
-#stopwatch{
-  font-size: calc(var(--size) * 0.074);
-  letter-spacing: calc(var(--size) * 0.007);
-}
-
-.controls{
-  margin-top: calc(var(--size) * 0.02);
-  display:flex;
-  justify-content:center;
-  gap: calc(var(--size) * 0.02);
-}
-
-.controls button{
-  font-family:'Digital-7 Mono', monospace;
-  font-size: calc(var(--size) * 0.03);
-  background:transparent;
-  border:none;
-  color:#ff2a2a;
-  cursor:pointer;
-  letter-spacing: calc(var(--size) * 0.005);
-  text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000;
-}
-
-.controls button:hover{
-  opacity:0.7;
-}
-
-</style>
-</head>
-
-<body>
-  <div class="widget">
-    <div class="display">
-      <div id="stopwatch">00:00</div>
-      <div class="controls">
-        <button onclick="startStop()">START</button>
-        <button onclick="reset()">RESET</button>
-      </div>
-    </div>
-  </div>
-</body>
-
-<script>
-let timer;
-let isRunning = false;
-let seconds = 0;
-
-function updateDisplay() {
-  let mins = String(Math.floor(seconds / 60)).padStart(2, "0");
-  let secs = String(seconds % 60).padStart(2, "0");
-  document.getElementById("stopwatch").textContent = `${mins}:${secs}`;
-}
-
-function startStop() {
-  if (isRunning) {
-    clearInterval(timer);
-  } else {
-    timer = setInterval(() => {
-      seconds++;
-      updateDisplay();
-    }, 1000);
-  }
-  isRunning = !isRunning;
-}
-
-function reset() {
-  clearInterval(timer);
-  seconds = 0;
-  updateDisplay();
-  isRunning = false;
-}
-
-updateDisplay();
-</script>
-
+</body> 
 </html>

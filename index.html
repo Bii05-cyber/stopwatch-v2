@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.cdnfonts.com/css/digital-7-mono" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  background:transparent;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+
+.widget{
+  position:relative;
+  width:700px;
+  aspect-ratio:1/1;
+  background:url("background.jpg") no-repeat center/cover;
+}
+
+/* ===== VISOR ===== */
+.display{
+  position:absolute;
+  top:160px;
+  left:95px;
+  width:280px;
+  text-align:center;
+  transform: skewX(-6deg);
+  font-family:'Digital-7 Mono', monospace;
+  color:#ff2a2a;
+  text-shadow:
+    0 0 5px #ff0000,
+    0 0 10px #ff0000,
+    0 0 20px #ff0000;
+}
+
+/* NÚMEROS */
+#stopwatch{
+  font-size:60px;
+  letter-spacing:6px;
+}
+
+/* BOTÕES */
+.controls{
+  margin-top:10px;
+  display:flex;
+  justify-content:space-between;
+}
+
+.controls button{
+  font-family:'Digital-7 Mono', monospace;
+  font-size:20px;
+  background:transparent;
+  border:none;
+  color:#ff2a2a;
+  cursor:pointer;
+  letter-spacing:3px;
+  text-shadow:
+    0 0 5px #ff0000,
+    0 0 10px #ff0000;
+}
+
+.controls button:hover{
+  opacity:0.7;
+}
+</style>
+</head>
+
+<body>
+
+<div class="widget">
+  <div class="display">
+      <div id="stopwatch">00:00</div>
+      <div class="controls">
+        <button onclick="startStop()">START</button>
+        <button onclick="reset()">RESET</button>
+      </div>
+  </div>
+</div>
+
+<script>
+let timer;
+let isRunning = false;
+let seconds = 0;
+
+function updateDisplay() {
+  let mins = String(Math.floor(seconds / 60)).padStart(2, "0");
+  let secs = String(seconds % 60).padStart(2, "0");
+  document.getElementById("stopwatch").textContent = `${mins}:${secs}`;
+}
+
+function startStop() {
+  if (isRunning) {
+    clearInterval(timer);
+  } else {
+    timer = setInterval(() => {
+      seconds++;
+      updateDisplay();
+    }, 1000);
+  }
+  isRunning = !isRunning;
+}
+
+function reset() {
+  clearInterval(timer);
+  seconds = 0;
+  updateDisplay();
+  isRunning = false;
+}
+
+updateDisplay();
+</script>
+
+</body>
+</html>

@@ -7,6 +7,13 @@
 <link href="https://fonts.cdnfonts.com/css/digital-7-mono" rel="stylesheet"> 
   
 <style> 
+
+.scale-wrapper {
+    transform: scale(0.75);   /* adjust size here */
+    transform-origin: top left;
+    width: fit-content;
+}
+  
 body{ 
   margin:0; 
   background:transparent; 
@@ -66,16 +73,18 @@ body{
 </head> 
   
 <body> 
-  
-<div class="widget"> 
-  <div class="display"> 
-    <div id="stopwatch">00:00</div> 
-    <div class="controls"> 
-      <button onclick="startStop()">START</button> 
-      <button onclick="reset()">RESET</button> 
+  <div class="scale-wrapper">
+    <div class="widget"> 
+      <div class="display"> 
+        <div id="stopwatch">00:00</div> 
+        <div class="controls"> 
+          <button onclick="startStop()">START</button> 
+          <button onclick="reset()">RESET</button> 
+        </div>
+      </div> 
     </div> 
   </div> 
-</div> 
+</body>
   
 <script> 
 let timer; 

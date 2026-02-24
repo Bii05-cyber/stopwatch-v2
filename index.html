@@ -78,36 +78,47 @@ body{
 </div> 
   
 <script> 
-let timer; 
-let isRunning = false; 
-let seconds = 0; 
-  
-function updateDisplay() { 
-  let mins = String(Math.floor(seconds / 60)).padStart(2, "0"); 
-  let secs = String(seconds % 60).padStart(2, "0"); 
-  document.getElementById("stopwatch").textContent = `${mins}:${secs}`; 
-} 
-  
-function startStop() { 
-  if (isRunning) { 
-    clearInterval(timer); 
-  } else { 
-    timer = setInterval(() => { 
-      seconds++; 
-      updateDisplay(); 
-    }, 1000); 
-  } 
-  isRunning = !isRunning; 
+// --- NON-FREEZING STOPWATCH ENGINE ---
+let startTime = null;   // when the stopwatch started running
+let elapsed = 0;        // total elapsed time in ms
+let isRunning = false;  
+let rafId = null;       // animation frame reference
+
+function updateDisplay() {
+  let total = elapsed;
+  let mins = String(Math.floor(total / 60000)).padStart(2, "0");
+  let secs = String(Math.floor((total % 60000) / 1000)).padStart(2, "0");
+
+  // Change this selector if your stopwatch ID is different
+  document.getElementById("stopwatch").textContent = `${mins}:${secs}`;
 }
-  
-function reset() { 
-  clearInterval(timer); 
-  seconds = 0; 
-  updateDisplay(); 
-  isRunning = false; 
-} 
-  
-updateDisplay(); 
+
+function tick() {
+  if (!isRunning) return;
+  elapsed = Date.now() - startTime;  // calculate true elapsed time
+  updateDisplay();
+  rafId = requestAnimationFrame(tick); // refresh again
+}
+
+function startStop() {
+  if (isRunning) {
+    isRunning = false;
+    cancelAnimationFrame(rafId);
+  } else {
+    startTime = Date.now() - elapsed;  // continue from previous elapsed
+    isRunning = true;
+    tick(); // begin ticking
+  }
+}
+
+function reset() {
+  isRunning = false;
+  cancelAnimationFrame(rafId);
+  elapsed = 0;
+  updateDisplay();
+}
+
+updateDisplay();  // initialize
 </script> 
 
 </body> 

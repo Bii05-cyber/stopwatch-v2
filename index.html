@@ -85,7 +85,7 @@ let seconds = 0;
 function updateDisplay() { 
   let mins = String(Math.floor(seconds / 60)).padStart(2, "0"); 
   let secs = String(seconds % 60).padStart(2, "0"); 
-  document.getElementById("stopwatch").textContent = ${mins}:${secs}; 
+  document.getElementById("stopwatch").textContent = '${mins}:${secs}'; 
 } 
   
 function startStop() { 
